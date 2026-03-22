@@ -12,12 +12,9 @@ mkdir -p "${SCRIPT_DIR}/data" "${SCRIPT_DIR}/dashboard"
 
 echo "=== $(date) Starting Rachio daily run ===" >> "$LOG_FILE"
 
-# Activate virtual environment
-source "${VENV_PATH}/bin/activate"
-
-# Run collector
+# Run collector using venv python directly
 cd "$SCRIPT_DIR"
-python -c "
+"${VENV_PATH}/bin/python" -c "
 import sys, logging
 sys.path.insert(0, '.')
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
