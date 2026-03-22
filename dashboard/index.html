@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rachio Dashboard</title>
+<meta http-equiv="refresh" content="1800">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #111827;
+    --card-bg: #1f2937;
+    --card-border: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --accent: #3b82f6;
+    --accent-green: #22c55e;
+    --accent-yellow: #eab308;
+    --accent-orange: #f97316;
+    --accent-red: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text-primary); padding: 20px; }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--card-border); }
+  h1 { font-size: 1.5rem; color: var(--accent); }
+  .header-meta { font-size: 0.85rem; color: var(--text-secondary); text-align: right; }
+  .summary-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .summary-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; }
+  .summary-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 4px; }
+  .summary-value { font-size: 1.5rem; font-weight: 700; color: var(--accent-green); }
+  .section-title { font-size: 1.1rem; margin-bottom: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+  .zones-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .zone-card { background: var(--card-bg); border: 1px solid var(--card-border); border-left: 4px solid var(--zone-color, var(--accent)); border-radius: 12px; padding: 16px; }
+  .zone-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .zone-name { font-size: 1rem; font-weight: 600; }
+  .zone-moisture-value { font-size: 1.4rem; font-weight: 700; }
+  .moisture-bar-container { position: relative; height: 12px; background: #374151; border-radius: 6px; overflow: visible; margin-bottom: 12px; }
+  .moisture-bar { height: 100%; border-radius: 6px; transition: width 0.5s ease; }
+  .target-line { position: absolute; top: -4px; bottom: -4px; width: 2px; background: white; opacity: 0.7; }
+  .zone-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-secondary); }
+  .meta-value { font-size: 0.9rem; font-weight: 500; }
+  .chart-container { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; margin-bottom: 32px; }
+  .chart-container canvas { max-height: 350px; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f3f4f6; --card-bg: #ffffff; --card-border: #e5e7eb; --text-primary: #111827; --text-secondary: #6b7280; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🌊 Rachio Dashboard</h1>
+  <div class="header-meta">
+    <div>Updated: 2026-03-22 20:24:45 PDT</div>
+    <div style="font-size:0.75rem; margin-top:4px;">Auto-refreshes every 30 min</div>
+  </div>
+</div>
+
+<div class="summary-bar">
+  <div class="summary-card">
+    <div class="summary-label">Total Monthly Water</div>
+    <div class="summary-value">202 gal</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-label">Active Zones</div>
+    <div class="summary-value">24</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-label">Report Period</div>
+    <div class="summary-value">30 days</div>
+  </div>
+</div>
+
+<div class="section-title">Zones</div>
+<div class="zones-grid">
+
+        <div class="zone-card" style="--zone-color: #3b82f6">
+            <div class="zone-header">
+                <h2 class="zone-name">A5 - mid lawn</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Jun 02</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #22c55e">
+            <div class="zone-header">
+                <h2 class="zone-name">A7 - V10 Driveway</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Jun 06</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.249 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #f97316">
+            <div class="zone-header">
+                <h2 class="zone-name">Around Dining Room And Left Of Front Door (V1)</h2>
+                <span class="zone-moisture-value" style="color:#f97316">49%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:49.3%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Yesterday</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-2075 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">17 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.100 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #a855f7">
+            <div class="zone-header">
+                <h2 class="zone-name">A6 - Driveway left of house</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Jun 02</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #ec4899">
+            <div class="zone-header">
+                <h2 class="zone-name">Left Oleander Row & Between Pond and House (V4)</h2>
+                <span class="zone-moisture-value" style="color:#f97316">47%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:47.4%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Yesterday</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">1 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.166 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #14b8a6">
+            <div class="zone-header">
+                <h2 class="zone-name">Front office and raised bed at front door</h2>
+                <span class="zone-moisture-value" style="color:#f97316">56%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:55.6%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">18 hrs ago</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">10 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.100 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #eab308">
+            <div class="zone-header">
+                <h2 class="zone-name">Hillside sprayer Behind Pond (V2)</h2>
+                <span class="zone-moisture-value" style="color:#f97316">56%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:55.6%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">17 hrs ago</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-2135 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">17 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.233 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #ef4444">
+            <div class="zone-header">
+                <h2 class="zone-name">Around Pool Bar</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">34%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:33.9%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Yesterday</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">6 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.100 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #3b82f6">
+            <div class="zone-header">
+                <h2 class="zone-name">A10 - V14 Sycamore Dr Beginning</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Feb 17</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #22c55e">
+            <div class="zone-header">
+                <h2 class="zone-name">driveway island drippers</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">34%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:33.5%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Yesterday</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.233 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #f97316">
+            <div class="zone-header">
+                <h2 class="zone-name">A8-V12 - Driveway Island Lawn</h2>
+                <span class="zone-moisture-value" style="color:#f97316">56%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:55.9%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">17 hrs ago</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">18 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #a855f7">
+            <div class="zone-header">
+                <h2 class="zone-name">A9 - V11 Driveway Island Lawn 2</h2>
+                <span class="zone-moisture-value" style="color:#f97316">56%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:55.9%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">17 hrs ago</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">18 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #ec4899">
+            <div class="zone-header">
+                <h2 class="zone-name">Zone 13</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Aug 11</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #14b8a6">
+            <div class="zone-header">
+                <h2 class="zone-name">A12 - V17 Driveway</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Jun 02</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #eab308">
+            <div class="zone-header">
+                <h2 class="zone-name">Zone 11</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Feb 17</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #ef4444">
+            <div class="zone-header">
+                <h2 class="zone-name">Oleander behind basketball hoop - needs repair</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Aug 11</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.166 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #3b82f6">
+            <div class="zone-header">
+                <h2 class="zone-name">Lawn Alongside Patio (V7)</h2>
+                <span class="zone-moisture-value" style="color:#f97316">56%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:55.9%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">6 hrs ago</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">15 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #22c55e">
+            <div class="zone-header">
+                <h2 class="zone-name">Upper Lawn Left Of Pool (V5)</h2>
+                <span class="zone-moisture-value" style="color:#f97316">56%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:55.9%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">6 hrs ago</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">22 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #f97316">
+            <div class="zone-header">
+                <h2 class="zone-name">Alongside Pool Fence And Rosemary Above Pump house </h2>
+                <span class="zone-moisture-value" style="color:#ef4444">0%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:0.0%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Sep 27</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">Not scheduled</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">0 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.166 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #a855f7">
+            <div class="zone-header">
+                <h2 class="zone-name">Pool Waterfall Bed And Lemon Tree (V6)</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">34%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:33.5%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Yesterday</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">24 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.233 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #ec4899">
+            <div class="zone-header">
+                <h2 class="zone-name">Flowers under pergola (V8) </h2>
+                <span class="zone-moisture-value" style="color:#f97316">49%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:49.3%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Yesterday</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">14 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.100 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #14b8a6">
+            <div class="zone-header">
+                <h2 class="zone-name">Flowers along pergola path</h2>
+                <span class="zone-moisture-value" style="color:#ef4444">34%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:33.5%; background:#ef4444"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Yesterday</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">8 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.233 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #eab308">
+            <div class="zone-header">
+                <h2 class="zone-name">Oleander above Pergola</h2>
+                <span class="zone-moisture-value" style="color:#f97316">47%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:47.4%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">Yesterday</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">9 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.166 in</span></div>
+            </div>
+        </div>
+        
+        <div class="zone-card" style="--zone-color: #ef4444">
+            <div class="zone-header">
+                <h2 class="zone-name">Lower Lawn left of pool (V9)</h2>
+                <span class="zone-moisture-value" style="color:#f97316">56%</span>
+            </div>
+            <div class="moisture-bar-container">
+                <div class="moisture-bar" style="width:55.9%; background:#f97316"></div>
+                <div class="target-line" style="left:50.0%"></div>
+            </div>
+            <div class="zone-meta">
+                <div class="meta-item"><span class="meta-label">Last Watered</span><span class="meta-value">6 hrs ago</span></div>
+                <div class="meta-item"><span class="meta-label">Next Scheduled</span><span class="meta-value">-635 min ago</span></div>
+                <div class="meta-item"><span class="meta-label">Monthly Use</span><span class="meta-value">22 gal</span></div>
+                <div class="meta-item"><span class="meta-label">Daily Depletion</span><span class="meta-value">0.216 in</span></div>
+            </div>
+        </div>
+        
+</div>
+
+<div class="chart-container">
+  <div class="section-title">Moisture History (30 days)</div>
+  <canvas id="moistureChart"></canvas>
+</div>
+
+<script>
+// Moisture history chart from inline data
+const historyData = [{"zone_id": "98429ab3-7efc-4ba9-8a79-a7822f732cf9", "zone_name": "Flowers under pergola (V8) ", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774066058000, "next_schedule_ts": 1774249200000, "monthly_gallons": 14.1, "daily_depletion_inches": 0.0, "days_since_watered": 1, "timestamp": 1774210077076}, {"zone_id": "6260a2e5-7a1a-4ee6-8293-2611f996cf05", "zone_name": "Pool Waterfall Bed And Lemon Tree (V6)", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774065601000, "next_schedule_ts": 1774249200000, "monthly_gallons": 24.1, "daily_depletion_inches": 0.0, "days_since_watered": 1, "timestamp": 1774210077076}, {"zone_id": "64b9a30b-9623-4d66-a0ab-48221de06c5a", "zone_name": "Oleander above Pergola", "moisture_pct": 55.8, "target_moisture_pct": 50.0, "last_watered_ts": 1774069202000, "next_schedule_ts": 1774249200000, "monthly_gallons": 8.9, "daily_depletion_inches": 0.0, "days_since_watered": 1, "timestamp": 1774210077076}, {"zone_id": "12d84823-d327-4fa1-bd9e-c216a060422f", "zone_name": "Lawn Alongside Patio (V7)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774188042000, "next_schedule_ts": 1774249200000, "monthly_gallons": 14.8, "daily_depletion_inches": 0.0, "days_since_watered": 0, "timestamp": 1774210077076}, {"zone_id": "0d06bbaa-bf72-47b4-85c3-334b39e5d43e", "zone_name": "Alongside Pool Fence And Rosemary Above Pump house ", "moisture_pct": 55.8, "target_moisture_pct": 50.0, "last_watered_ts": 1695844711000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 907, "timestamp": 1774210077076}, {"zone_id": "f96d0b6c-e90e-4c8d-96dc-7411238176f3", "zone_name": "Flowers along pergola path", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774066874000, "next_schedule_ts": 1774249200000, "monthly_gallons": 7.9, "daily_depletion_inches": 0.0, "days_since_watered": 1, "timestamp": 1774210077076}, {"zone_id": "f6864228-3fb7-4434-8e61-8eb84e386d5e", "zone_name": "Upper Lawn Left Of Pool (V5)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774187609000, "next_schedule_ts": 1774249200000, "monthly_gallons": 22.4, "daily_depletion_inches": 0.0, "days_since_watered": 0, "timestamp": 1774210077076}, {"zone_id": "7203ebe2-fa89-4961-a6de-73caea67b97a", "zone_name": "Lower Lawn left of pool (V9)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774187186000, "next_schedule_ts": 1774249200000, "monthly_gallons": 22.4, "daily_depletion_inches": 0.0, "days_since_watered": 0, "timestamp": 1774210077076}, {"zone_id": "690e6948-95ec-4050-a846-d41e5f89c380", "zone_name": "A5 - mid lawn", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1654138162000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 1389, "timestamp": 1774210077076}, {"zone_id": "eb4fc0a7-74d0-41c1-aee2-59a1d0966c67", "zone_name": "A6 - Driveway left of house", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1654138168000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 1389, "timestamp": 1774210077076}, {"zone_id": "8fd833b5-c8f0-4415-a490-215a21b89deb", "zone_name": "driveway island drippers", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774059482000, "next_schedule_ts": 0, "monthly_gallons": 0.5, "daily_depletion_inches": 0.0, "days_since_watered": 1, "timestamp": 1774210077076}, {"zone_id": "ebaa90f2-c09a-4566-971b-6529fe72aab4", "zone_name": "Around Dining Room And Left Of Front Door (V1)", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774094772000, "next_schedule_ts": 1774335600000, "monthly_gallons": 17.0, "daily_depletion_inches": 0.0, "days_since_watered": 1, "timestamp": 1774210077076}, {"zone_id": "f02a7e2a-130f-4dcb-bdac-d1bac7a89c5e", "zone_name": "Front office and raised bed at front door", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774145941000, "next_schedule_ts": 1774249200000, "monthly_gallons": 10.3, "daily_depletion_inches": 0.0, "days_since_watered": 0, "timestamp": 1774210077076}, {"zone_id": "c1e9e40c-6dab-42c5-99ed-edd89b869ff1", "zone_name": "Zone 11", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1676670861000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 1128, "timestamp": 1774210077076}, {"zone_id": "9690aefb-5952-489d-8beb-12a6b0ec6276", "zone_name": "Oleander behind basketball hoop - needs repair", "moisture_pct": 55.8, "target_moisture_pct": 50.0, "last_watered_ts": 1691770133000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 954, "timestamp": 1774210077076}, {"zone_id": "3474b82d-1dbb-4076-ab96-051424580acc", "zone_name": "A7 - V10 Driveway", "moisture_pct": 55.7, "target_moisture_pct": 50.0, "last_watered_ts": 1654541959000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 1385, "timestamp": 1774210077076}, {"zone_id": "c6bb3144-801e-4d73-a081-315b851012e2", "zone_name": "Zone 13", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1691770212000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 954, "timestamp": 1774210077076}, {"zone_id": "1de29bf5-3961-461e-92e4-069921dae5d5", "zone_name": "Around Pool Bar", "moisture_pct": 55.1, "target_moisture_pct": 50.0, "last_watered_ts": 1774094401000, "next_schedule_ts": 1774249200000, "monthly_gallons": 6.5, "daily_depletion_inches": 0.0, "days_since_watered": 1, "timestamp": 1774210077076}, {"zone_id": "590143c5-b3f4-4322-884e-14e11624350c", "zone_name": "A9 - V11 Driveway Island Lawn 2", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774146544000, "next_schedule_ts": 1774249200000, "monthly_gallons": 17.8, "daily_depletion_inches": 0.0, "days_since_watered": 0, "timestamp": 1774210077076}, {"zone_id": "67710d0d-53d7-40f6-9f98-9903e27edf7e", "zone_name": "Left Oleander Row & Between Pond and House (V4)", "moisture_pct": 55.8, "target_moisture_pct": 50.0, "last_watered_ts": 1774059845000, "next_schedule_ts": 0, "monthly_gallons": 0.9, "daily_depletion_inches": 0.0, "days_since_watered": 1, "timestamp": 1774210077076}, {"zone_id": "40835733-83a2-4987-80d1-a2892848d158", "zone_name": "A8-V12 - Driveway Island Lawn", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774146886000, "next_schedule_ts": 1774249200000, "monthly_gallons": 17.8, "daily_depletion_inches": 0.0, "days_since_watered": 0, "timestamp": 1774210077076}, {"zone_id": "98e8ca30-81ae-4a5e-b69b-d2fbb33416a3", "zone_name": "A12 - V17 Driveway", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1654137110000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 1389, "timestamp": 1774210077076}, {"zone_id": "6c1f8264-9ac4-4ba2-aaa2-270b85a98552", "zone_name": "A10 - V14 Sycamore Dr Beginning", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1676670834000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.0, "days_since_watered": 1128, "timestamp": 1774210077076}, {"zone_id": "449e624b-8b18-40b0-8c46-19b414e3c6d4", "zone_name": "Hillside sprayer Behind Pond (V2)", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774147231000, "next_schedule_ts": 1774339200000, "monthly_gallons": 17.1, "daily_depletion_inches": 0.0, "days_since_watered": 0, "timestamp": 1774210077076}, {"zone_id": "64b9a30b-9623-4d66-a0ab-48221de06c5a", "zone_name": "Oleander above Pergola", "moisture_pct": 47.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774069202000, "next_schedule_ts": 1774249200000, "monthly_gallons": 8.9, "daily_depletion_inches": 0.1611, "days_since_watered": 1, "timestamp": 1774210102131}, {"zone_id": "7203ebe2-fa89-4961-a6de-73caea67b97a", "zone_name": "Lower Lawn left of pool (V9)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774187186000, "next_schedule_ts": 1774249200000, "monthly_gallons": 22.4, "daily_depletion_inches": 0.2095, "days_since_watered": 0, "timestamp": 1774210102131}, {"zone_id": "f96d0b6c-e90e-4c8d-96dc-7411238176f3", "zone_name": "Flowers along pergola path", "moisture_pct": 34.1, "target_moisture_pct": 50.0, "last_watered_ts": 1774066874000, "next_schedule_ts": 1774249200000, "monthly_gallons": 7.9, "daily_depletion_inches": 0.2256, "days_since_watered": 1, "timestamp": 1774210102131}, {"zone_id": "f6864228-3fb7-4434-8e61-8eb84e386d5e", "zone_name": "Upper Lawn Left Of Pool (V5)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774187609000, "next_schedule_ts": 1774249200000, "monthly_gallons": 22.4, "daily_depletion_inches": 0.2095, "days_since_watered": 0, "timestamp": 1774210102131}, {"zone_id": "12d84823-d327-4fa1-bd9e-c216a060422f", "zone_name": "Lawn Alongside Patio (V7)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774188042000, "next_schedule_ts": 1774249200000, "monthly_gallons": 14.8, "daily_depletion_inches": 0.2095, "days_since_watered": 0, "timestamp": 1774210102131}, {"zone_id": "6260a2e5-7a1a-4ee6-8293-2611f996cf05", "zone_name": "Pool Waterfall Bed And Lemon Tree (V6)", "moisture_pct": 34.1, "target_moisture_pct": 50.0, "last_watered_ts": 1774065601000, "next_schedule_ts": 1774249200000, "monthly_gallons": 24.1, "daily_depletion_inches": 0.2256, "days_since_watered": 1, "timestamp": 1774210102131}, {"zone_id": "0d06bbaa-bf72-47b4-85c3-334b39e5d43e", "zone_name": "Alongside Pool Fence And Rosemary Above Pump house ", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1695844711000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.1611, "days_since_watered": 907, "timestamp": 1774210102131}, {"zone_id": "98429ab3-7efc-4ba9-8a79-a7822f732cf9", "zone_name": "Flowers under pergola (V8) ", "moisture_pct": 49.4, "target_moisture_pct": 50.0, "last_watered_ts": 1774066058000, "next_schedule_ts": 1774249200000, "monthly_gallons": 14.1, "daily_depletion_inches": 0.0967, "days_since_watered": 1, "timestamp": 1774210102131}, {"zone_id": "c1e9e40c-6dab-42c5-99ed-edd89b869ff1", "zone_name": "Zone 11", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1676670861000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1128, "timestamp": 1774210102131}, {"zone_id": "449e624b-8b18-40b0-8c46-19b414e3c6d4", "zone_name": "Hillside sprayer Behind Pond (V2)", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774147231000, "next_schedule_ts": 1774339200000, "monthly_gallons": 17.1, "daily_depletion_inches": 0.2327, "days_since_watered": 0, "timestamp": 1774210102131}, {"zone_id": "98e8ca30-81ae-4a5e-b69b-d2fbb33416a3", "zone_name": "A12 - V17 Driveway", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1654137110000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1389, "timestamp": 1774210102131}, {"zone_id": "3474b82d-1dbb-4076-ab96-051424580acc", "zone_name": "A7 - V10 Driveway", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1654541959000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2493, "days_since_watered": 1385, "timestamp": 1774210102131}, {"zone_id": "ebaa90f2-c09a-4566-971b-6529fe72aab4", "zone_name": "Around Dining Room And Left Of Front Door (V1)", "moisture_pct": 49.3, "target_moisture_pct": 50.0, "last_watered_ts": 1774094772000, "next_schedule_ts": 1774335600000, "monthly_gallons": 17.0, "daily_depletion_inches": 0.0997, "days_since_watered": 1, "timestamp": 1774210102131}, {"zone_id": "690e6948-95ec-4050-a846-d41e5f89c380", "zone_name": "A5 - mid lawn", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1654138162000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1389, "timestamp": 1774210102131}, {"zone_id": "40835733-83a2-4987-80d1-a2892848d158", "zone_name": "A8-V12 - Driveway Island Lawn", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774146886000, "next_schedule_ts": 1774249200000, "monthly_gallons": 17.8, "daily_depletion_inches": 0.2161, "days_since_watered": 0, "timestamp": 1774210102131}, {"zone_id": "1de29bf5-3961-461e-92e4-069921dae5d5", "zone_name": "Around Pool Bar", "moisture_pct": 33.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774094401000, "next_schedule_ts": 1774249200000, "monthly_gallons": 6.5, "daily_depletion_inches": 0.0997, "days_since_watered": 1, "timestamp": 1774210102131}, {"zone_id": "67710d0d-53d7-40f6-9f98-9903e27edf7e", "zone_name": "Left Oleander Row & Between Pond and House (V4)", "moisture_pct": 47.4, "target_moisture_pct": 50.0, "last_watered_ts": 1774059845000, "next_schedule_ts": 0, "monthly_gallons": 0.9, "daily_depletion_inches": 0.1662, "days_since_watered": 1, "timestamp": 1774210102131}, {"zone_id": "eb4fc0a7-74d0-41c1-aee2-59a1d0966c67", "zone_name": "A6 - Driveway left of house", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1654138168000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1389, "timestamp": 1774210102131}, {"zone_id": "c6bb3144-801e-4d73-a081-315b851012e2", "zone_name": "Zone 13", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1691770212000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 954, "timestamp": 1774210102131}, {"zone_id": "9690aefb-5952-489d-8beb-12a6b0ec6276", "zone_name": "Oleander behind basketball hoop - needs repair", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1691770133000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.1662, "days_since_watered": 954, "timestamp": 1774210102131}, {"zone_id": "8fd833b5-c8f0-4415-a490-215a21b89deb", "zone_name": "driveway island drippers", "moisture_pct": 33.5, "target_moisture_pct": 50.0, "last_watered_ts": 1774059482000, "next_schedule_ts": 0, "monthly_gallons": 0.5, "daily_depletion_inches": 0.2327, "days_since_watered": 1, "timestamp": 1774210102131}, {"zone_id": "6c1f8264-9ac4-4ba2-aaa2-270b85a98552", "zone_name": "A10 - V14 Sycamore Dr Beginning", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1676670834000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1128, "timestamp": 1774210102131}, {"zone_id": "590143c5-b3f4-4322-884e-14e11624350c", "zone_name": "A9 - V11 Driveway Island Lawn 2", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774146544000, "next_schedule_ts": 1774249200000, "monthly_gallons": 17.8, "daily_depletion_inches": 0.2161, "days_since_watered": 0, "timestamp": 1774210102131}, {"zone_id": "f02a7e2a-130f-4dcb-bdac-d1bac7a89c5e", "zone_name": "Front office and raised bed at front door", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774145941000, "next_schedule_ts": 1774249200000, "monthly_gallons": 10.3, "daily_depletion_inches": 0.0997, "days_since_watered": 0, "timestamp": 1774210102131}, {"zone_id": "690e6948-95ec-4050-a846-d41e5f89c380", "zone_name": "A5 - mid lawn", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1654138162000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1389, "timestamp": 1774211085429}, {"zone_id": "3474b82d-1dbb-4076-ab96-051424580acc", "zone_name": "A7 - V10 Driveway", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1654541959000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2493, "days_since_watered": 1385, "timestamp": 1774211085429}, {"zone_id": "ebaa90f2-c09a-4566-971b-6529fe72aab4", "zone_name": "Around Dining Room And Left Of Front Door (V1)", "moisture_pct": 49.3, "target_moisture_pct": 50.0, "last_watered_ts": 1774094772000, "next_schedule_ts": 1774335600000, "monthly_gallons": 17.0, "daily_depletion_inches": 0.0997, "days_since_watered": 1, "timestamp": 1774211085429}, {"zone_id": "eb4fc0a7-74d0-41c1-aee2-59a1d0966c67", "zone_name": "A6 - Driveway left of house", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1654138168000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1389, "timestamp": 1774211085429}, {"zone_id": "67710d0d-53d7-40f6-9f98-9903e27edf7e", "zone_name": "Left Oleander Row & Between Pond and House (V4)", "moisture_pct": 47.4, "target_moisture_pct": 50.0, "last_watered_ts": 1774059845000, "next_schedule_ts": 0, "monthly_gallons": 0.9, "daily_depletion_inches": 0.1662, "days_since_watered": 1, "timestamp": 1774211085429}, {"zone_id": "f02a7e2a-130f-4dcb-bdac-d1bac7a89c5e", "zone_name": "Front office and raised bed at front door", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774145941000, "next_schedule_ts": 1774249200000, "monthly_gallons": 10.3, "daily_depletion_inches": 0.0997, "days_since_watered": 0, "timestamp": 1774211085429}, {"zone_id": "449e624b-8b18-40b0-8c46-19b414e3c6d4", "zone_name": "Hillside sprayer Behind Pond (V2)", "moisture_pct": 55.6, "target_moisture_pct": 50.0, "last_watered_ts": 1774147231000, "next_schedule_ts": 1774339200000, "monthly_gallons": 17.1, "daily_depletion_inches": 0.2327, "days_since_watered": 0, "timestamp": 1774211085429}, {"zone_id": "1de29bf5-3961-461e-92e4-069921dae5d5", "zone_name": "Around Pool Bar", "moisture_pct": 33.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774094401000, "next_schedule_ts": 1774249200000, "monthly_gallons": 6.5, "daily_depletion_inches": 0.0997, "days_since_watered": 1, "timestamp": 1774211085429}, {"zone_id": "6c1f8264-9ac4-4ba2-aaa2-270b85a98552", "zone_name": "A10 - V14 Sycamore Dr Beginning", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1676670834000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1128, "timestamp": 1774211085429}, {"zone_id": "8fd833b5-c8f0-4415-a490-215a21b89deb", "zone_name": "driveway island drippers", "moisture_pct": 33.5, "target_moisture_pct": 50.0, "last_watered_ts": 1774059482000, "next_schedule_ts": 0, "monthly_gallons": 0.5, "daily_depletion_inches": 0.2327, "days_since_watered": 1, "timestamp": 1774211085429}, {"zone_id": "40835733-83a2-4987-80d1-a2892848d158", "zone_name": "A8-V12 - Driveway Island Lawn", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774146886000, "next_schedule_ts": 1774249200000, "monthly_gallons": 17.8, "daily_depletion_inches": 0.2161, "days_since_watered": 0, "timestamp": 1774211085429}, {"zone_id": "590143c5-b3f4-4322-884e-14e11624350c", "zone_name": "A9 - V11 Driveway Island Lawn 2", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774146544000, "next_schedule_ts": 1774249200000, "monthly_gallons": 17.8, "daily_depletion_inches": 0.2161, "days_since_watered": 0, "timestamp": 1774211085429}, {"zone_id": "c6bb3144-801e-4d73-a081-315b851012e2", "zone_name": "Zone 13", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1691770212000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 954, "timestamp": 1774211085429}, {"zone_id": "98e8ca30-81ae-4a5e-b69b-d2fbb33416a3", "zone_name": "A12 - V17 Driveway", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1654137110000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1389, "timestamp": 1774211085429}, {"zone_id": "c1e9e40c-6dab-42c5-99ed-edd89b869ff1", "zone_name": "Zone 11", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1676670861000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.2161, "days_since_watered": 1128, "timestamp": 1774211085429}, {"zone_id": "9690aefb-5952-489d-8beb-12a6b0ec6276", "zone_name": "Oleander behind basketball hoop - needs repair", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1691770133000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.1662, "days_since_watered": 954, "timestamp": 1774211085429}, {"zone_id": "12d84823-d327-4fa1-bd9e-c216a060422f", "zone_name": "Lawn Alongside Patio (V7)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774188042000, "next_schedule_ts": 1774249200000, "monthly_gallons": 14.8, "daily_depletion_inches": 0.2161, "days_since_watered": 0, "timestamp": 1774211085429}, {"zone_id": "f6864228-3fb7-4434-8e61-8eb84e386d5e", "zone_name": "Upper Lawn Left Of Pool (V5)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774187609000, "next_schedule_ts": 1774249200000, "monthly_gallons": 22.4, "daily_depletion_inches": 0.2161, "days_since_watered": 0, "timestamp": 1774211085429}, {"zone_id": "0d06bbaa-bf72-47b4-85c3-334b39e5d43e", "zone_name": "Alongside Pool Fence And Rosemary Above Pump house ", "moisture_pct": 0.0, "target_moisture_pct": 50.0, "last_watered_ts": 1695844711000, "next_schedule_ts": 0, "monthly_gallons": 0.0, "daily_depletion_inches": 0.1662, "days_since_watered": 907, "timestamp": 1774211085429}, {"zone_id": "6260a2e5-7a1a-4ee6-8293-2611f996cf05", "zone_name": "Pool Waterfall Bed And Lemon Tree (V6)", "moisture_pct": 33.5, "target_moisture_pct": 50.0, "last_watered_ts": 1774065601000, "next_schedule_ts": 1774249200000, "monthly_gallons": 24.1, "daily_depletion_inches": 0.2327, "days_since_watered": 1, "timestamp": 1774211085429}, {"zone_id": "98429ab3-7efc-4ba9-8a79-a7822f732cf9", "zone_name": "Flowers under pergola (V8) ", "moisture_pct": 49.3, "target_moisture_pct": 50.0, "last_watered_ts": 1774066058000, "next_schedule_ts": 1774249200000, "monthly_gallons": 14.1, "daily_depletion_inches": 0.0997, "days_since_watered": 1, "timestamp": 1774211085429}, {"zone_id": "f96d0b6c-e90e-4c8d-96dc-7411238176f3", "zone_name": "Flowers along pergola path", "moisture_pct": 33.5, "target_moisture_pct": 50.0, "last_watered_ts": 1774066874000, "next_schedule_ts": 1774249200000, "monthly_gallons": 7.9, "daily_depletion_inches": 0.2327, "days_since_watered": 1, "timestamp": 1774211085429}, {"zone_id": "64b9a30b-9623-4d66-a0ab-48221de06c5a", "zone_name": "Oleander above Pergola", "moisture_pct": 47.4, "target_moisture_pct": 50.0, "last_watered_ts": 1774069202000, "next_schedule_ts": 1774249200000, "monthly_gallons": 8.9, "daily_depletion_inches": 0.1662, "days_since_watered": 1, "timestamp": 1774211085429}, {"zone_id": "7203ebe2-fa89-4961-a6de-73caea67b97a", "zone_name": "Lower Lawn left of pool (V9)", "moisture_pct": 55.9, "target_moisture_pct": 50.0, "last_watered_ts": 1774187186000, "next_schedule_ts": 1774249200000, "monthly_gallons": 22.4, "daily_depletion_inches": 0.2161, "days_since_watered": 0, "timestamp": 1774211085429}];
+const zoneMap = {};
+historyData.forEach(r => { zoneMap[r.zone_id] = r.zone_name || r.zone_id; });
+
+// Group by zone
+const byZone = {};
+historyData.forEach(r => {
+  const zid = r.zone_id;
+  if (!byZone[zid]) byZone[zid] = { labels: [], data: [] };
+  byZone[zid].labels.push(new Date(r.timestamp).toLocaleDateString());
+  byZone[zid].data.push(r.moisture_pct);
+});
+
+const zoneColors = ['#3b82f6', '#22c55e', '#f97316', '#a855f7', '#ec4899', '#14b8a6', '#eab308', '#ef4444'];
+const zids = Object.keys(byZone);
+const datasets = zids.map((zid, i) => ({
+  label: zoneMap[zid] || zid,
+  data: byZone[zid].data,
+  borderColor: zoneColors[i % zoneColors.length],
+  backgroundColor: zoneColors[i % zoneColors.length] + '33',
+  tension: 0.3,
+  fill: false,
+  pointRadius: 2,
+}));
+
+const ctx = document.getElementById('moistureChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: { labels: byZone[zids[0]]?.labels || [], datasets },
+  options: {
+    responsive: true,
+    scales: {
+      y: { min: 0, max: 105, title: { display: true, text: 'Moisture %' } },
+      x: { title: { display: true, text: 'Date' } }
+    },
+    plugins: {
+      annotation: {
+        annotations: {
+          optimal: { type: 'line', yMin: 80, yMax: 80, borderColor: '#22c55e', borderDash: [5,5], label: { display: true, content: 'Optimal 80%' } },
+          mad: { type: 'line', yMin: 50, yMax: 50, borderColor: '#f97316', borderDash: [5,5] }
+        }
+      },
+      legend: { position: 'bottom' }
+    }
+  }
+});
+</script>
+</body>
+</html>
