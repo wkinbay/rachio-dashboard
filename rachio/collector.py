@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from rachio.api import RachioClient, RachioError
 from rachio.moisture import compute_eto_hargreaves, daily_depletion_rate, estimate_moisture
 from rachio.models import Device, ScheduleRule, WeatherData, Zone, ZoneState
-from rachio.water_usage import estimate_monthly_consumption
+from rachio.water_usage import actual_monthly_gallons
 
 log = logging.getLogger("rachio.collector")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -200,6 +200,17 @@ def collect_daily_state() -> Dict[str, ZoneState]:
             log.warning("Could not fetch weather for device %s: %s", device_id, e)
             weather = None
 
+        # Fetch actual watering events for the current billing period (this month)
+        now = datetime.now()
+        bill_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        bill_start_ms = int(bill_start.timestamp() * 1000)
+        now_ms = int(now.timestamp() * 1000)
+        try:
+            all_events = client.get_watering_events(device_id, bill_start_ms, now_ms)
+        except RachioError as e:
+            log.warning("Could not fetch watering events for device %s: %s", device_id, e)
+            all_events = []
+
         for zone in zones:
             # Days since last watered
             days_since = 0
@@ -214,8 +225,8 @@ def collect_daily_state() -> Dict[str, ZoneState]:
             # Next scheduled
             next_sched = next_schedule_ts(rules, zone.id)
 
-            # Monthly consumption (estimate from zone runtime and schedule rules)
-            monthly_gal = estimate_monthly_consumption(zone, rules=rules)
+            # Monthly consumption (actual from watering events this month)
+            monthly_gal = actual_monthly_gallons(zone, all_events, bill_start_ms, now_ms)
 
             # Daily depletion
             daily_depl = 0.0

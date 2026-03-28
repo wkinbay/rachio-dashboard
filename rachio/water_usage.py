@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import re
+from datetime import datetime
+
 from typing import List, Optional
 
 from rachio.models import ScheduleRule, Zone
@@ -88,3 +91,52 @@ def estimate_event_gallons(zone: Zone, duration_seconds: int) -> float:
     nozzle_rate = zone.nozzle_rate_inhr if zone.nozzle_rate_inhr > 0 else 1.5
     hours = duration_seconds / 3600.0
     return round((nozzle_rate * area / 96.25) * hours, 2)
+
+
+# Pattern to extract minutes from event summary strings like:
+# "ZoneName ran for 7 minutes." or "ZoneName completed watering at 10:06 PM for 7 minutes."
+_MINUTES_PATTERN = re.compile(r"(\d+)\s+minute", re.IGNORECASE)
+
+
+def actual_monthly_gallons(
+    zone: Zone,
+    events: list[dict],
+    start_time_ms: int,
+    end_time_ms: int,
+) -> float:
+    """Calculate actual water usage for a zone from watering events.
+
+    Only counts events whose summary mentions this zone name and falls
+    within the time range.
+
+    Args:
+        zone: Zone with area and nozzle info
+        events: Full list of watering events from get_watering_events()
+        start_time_ms: Start of billing period (epoch ms)
+        end_time_ms: End of billing period (epoch ms)
+
+    Returns:
+        Gallons actually used in the period
+    """
+    area = zone.area_sqft if zone.area_sqft > 0 else 500
+    nozzle_rate = zone.nozzle_rate_inhr if zone.nozzle_rate_inhr > 0 else 1.5
+    gal_per_sec = (nozzle_rate * area) / (96.25 * 3600)
+
+    total_seconds = 0.0
+    for event in events:
+        if event.get("topic") != "WATERING":
+            continue
+        sub_type = event.get("subType", "")
+        if sub_type not in ("SCHEDULE_COMPLETED", "ZONE_COMPLETED"):
+            continue
+        event_ms = event.get("eventDate", 0)
+        if not (start_time_ms <= event_ms <= end_time_ms):
+            continue
+        summary = event.get("summary", "")
+        if zone.name.lower()[:10] not in summary.lower():
+            continue
+        m = _MINUTES_PATTERN.search(summary)
+        if m:
+            total_seconds += int(m.group(1)) * 60
+
+    return round(gal_per_sec * total_seconds, 1)

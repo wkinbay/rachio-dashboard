@@ -158,6 +158,26 @@ class RachioClient:
     # Weather / Forecast
     # -------------------------------------------------------------------------
 
+    def get_watering_events(self, device_id: str, start_time_ms: int, end_time_ms: int) -> list[dict]:
+        """Get watering events for a device within a time range.
+
+        Returns events with topic=WATERING and subType in SCHEDULE_COMPLETED,
+        ZONE_COMPLETED, etc. Each event's summary field contains the duration
+        in text form (e.g. "ZoneName ran for 7 minutes.").
+
+        Args:
+            device_id: The device UUID
+            start_time_ms: Start of range in epoch milliseconds
+            end_time_ms: End of range in epoch milliseconds
+
+        Returns:
+            List of event dicts
+        """
+        return self._get(
+            f"/device/{device_id}/event",
+            params={"startTime": start_time_ms, "endTime": end_time_ms},
+        )
+
     def get_forecast(self, device_id: str, units: str = "US") -> dict:
         """Get weather forecast for a device location.
 

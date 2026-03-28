@@ -1,0 +1,241 @@
+=== Sun Mar 22 20:53:42 UTC 2026 Starting Rachio daily run ===
+=== Sun Mar 22 20:59:26 UTC 2026 Starting Rachio daily run ===
+=== Sun Mar 22 20:59:31 UTC 2026 Starting Rachio daily run ===
+=== Sun Mar 22 20:59:44 UTC 2026 Starting Rachio daily run ===
+2026-03-22 20:59:45,000 INFO Starting daily Rachio collection
+2026-03-22 20:59:45,232 INFO HTTP Request: GET https://api.rach.io/1/public/person/info "HTTP/1.1 200 "
+2026-03-22 20:59:45,812 INFO HTTP Request: GET https://api.rach.io/1/public/person/5d932f2c-fe60-4ad1-9276-49d550c66830 "HTTP/1.1 200 "
+2026-03-22 20:59:46,079 INFO HTTP Request: GET https://api.rach.io/1/public/device/f58cd150-ad18-4b20-9fcd-0874e9be7225/forecast?units=US "HTTP/1.1 200 "
+2026-03-22 20:59:46,287 INFO HTTP Request: GET https://api.rach.io/1/public/device/3255cd29-283f-4892-a968-88cb55690073/forecast?units=US "HTTP/1.1 200 "
+2026-03-22 20:59:46,290 INFO Zone Oleander above Pergola: moisture=47.7%, last_watered=1 days ago, monthly=8.9 gal
+2026-03-22 20:59:46,291 INFO Zone Lawn Alongside Patio (V7): moisture=55.9%, last_watered=0 days ago, monthly=14.8 gal
+2026-03-22 20:59:46,291 INFO Zone Upper Lawn Left Of Pool (V5): moisture=55.9%, last_watered=0 days ago, monthly=22.4 gal
+2026-03-22 20:59:46,292 INFO Zone Flowers under pergola (V8) : moisture=49.5%, last_watered=1 days ago, monthly=14.1 gal
+2026-03-22 20:59:46,292 INFO Zone Alongside Pool Fence And Rosemary Above Pump house : moisture=0.0%, last_watered=907 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,293 INFO Zone Pool Waterfall Bed And Lemon Tree (V6): moisture=34.5%, last_watered=1 days ago, monthly=24.1 gal
+2026-03-22 20:59:46,293 INFO Zone Lower Lawn left of pool (V9): moisture=55.9%, last_watered=0 days ago, monthly=22.4 gal
+2026-03-22 20:59:46,294 INFO Zone Flowers along pergola path: moisture=34.5%, last_watered=1 days ago, monthly=7.9 gal
+2026-03-22 20:59:46,294 INFO Zone A6 - Driveway left of house: moisture=0.0%, last_watered=1389 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,294 INFO Zone A12 - V17 Driveway: moisture=0.0%, last_watered=1389 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,295 INFO Zone Hillside sprayer Behind Pond (V2): moisture=55.6%, last_watered=0 days ago, monthly=17.1 gal
+2026-03-22 20:59:46,295 INFO Zone driveway island drippers: moisture=34.5%, last_watered=1 days ago, monthly=0.5 gal
+2026-03-22 20:59:46,295 INFO Zone A10 - V14 Sycamore Dr Beginning: moisture=0.0%, last_watered=1128 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,295 INFO Zone A5 - mid lawn: moisture=0.0%, last_watered=1389 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,296 INFO Zone Around Dining Room And Left Of Front Door (V1): moisture=49.5%, last_watered=1 days ago, monthly=17.0 gal
+2026-03-22 20:59:46,296 INFO Zone A7 - V10 Driveway: moisture=0.0%, last_watered=1385 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,296 INFO Zone Left Oleander Row & Between Pond and House (V4): moisture=47.7%, last_watered=1 days ago, monthly=0.9 gal
+2026-03-22 20:59:46,297 INFO Zone Oleander behind basketball hoop - needs repair: moisture=0.0%, last_watered=954 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,297 INFO Zone Zone 11: moisture=0.0%, last_watered=1128 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,297 INFO Zone A9 - V11 Driveway Island Lawn 2: moisture=55.9%, last_watered=0 days ago, monthly=17.8 gal
+2026-03-22 20:59:46,298 INFO Zone Zone 13: moisture=0.0%, last_watered=954 days ago, monthly=0.0 gal
+2026-03-22 20:59:46,298 INFO Zone Around Pool Bar: moisture=34.8%, last_watered=1 days ago, monthly=6.5 gal
+2026-03-22 20:59:46,298 INFO Zone Front office and raised bed at front door: moisture=55.6%, last_watered=0 days ago, monthly=10.3 gal
+2026-03-22 20:59:46,298 INFO Zone A8-V12 - Driveway Island Lawn: moisture=55.9%, last_watered=0 days ago, monthly=17.8 gal
+2026-03-22 20:59:46,300 INFO Collection complete. 24 zones. Pruned 0 old records.
+Collected state for 24 zones
+Report generated: 24 zones, 203 gal total
+=== Sun Mar 22 20:59:46 UTC 2026 Daily run completed successfully ===
+=== Sun Mar 22 21:01:17 UTC 2026 Starting Rachio daily run ===
+2026-03-22 21:01:18,221 INFO Starting daily Rachio collection
+2026-03-22 21:01:18,458 INFO HTTP Request: GET https://api.rach.io/1/public/person/info "HTTP/1.1 200 "
+2026-03-22 21:01:19,076 INFO HTTP Request: GET https://api.rach.io/1/public/person/5d932f2c-fe60-4ad1-9276-49d550c66830 "HTTP/1.1 200 "
+2026-03-22 21:01:19,352 INFO HTTP Request: GET https://api.rach.io/1/public/device/3255cd29-283f-4892-a968-88cb55690073/forecast?units=US "HTTP/1.1 200 "
+2026-03-22 21:01:19,574 INFO HTTP Request: GET https://api.rach.io/1/public/device/f58cd150-ad18-4b20-9fcd-0874e9be7225/forecast?units=US "HTTP/1.1 200 "
+2026-03-22 21:01:19,577 INFO Zone Front office and raised bed at front door: moisture=55.6%, last_watered=0 days ago, monthly=10.3 gal
+2026-03-22 21:01:19,577 INFO Zone A10 - V14 Sycamore Dr Beginning: moisture=0.0%, last_watered=1128 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,578 INFO Zone Around Pool Bar: moisture=34.8%, last_watered=1 days ago, monthly=6.5 gal
+2026-03-22 21:01:19,578 INFO Zone A12 - V17 Driveway: moisture=0.0%, last_watered=1389 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,579 INFO Zone Hillside sprayer Behind Pond (V2): moisture=55.6%, last_watered=0 days ago, monthly=17.1 gal
+2026-03-22 21:01:19,579 INFO Zone Around Dining Room And Left Of Front Door (V1): moisture=49.5%, last_watered=1 days ago, monthly=17.0 gal
+2026-03-22 21:01:19,579 INFO Zone A8-V12 - Driveway Island Lawn: moisture=55.9%, last_watered=0 days ago, monthly=17.8 gal
+2026-03-22 21:01:19,580 INFO Zone A6 - Driveway left of house: moisture=0.0%, last_watered=1389 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,580 INFO Zone A9 - V11 Driveway Island Lawn 2: moisture=55.9%, last_watered=0 days ago, monthly=17.8 gal
+2026-03-22 21:01:19,580 INFO Zone Oleander behind basketball hoop - needs repair: moisture=0.0%, last_watered=954 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,581 INFO Zone Left Oleander Row & Between Pond and House (V4): moisture=47.7%, last_watered=1 days ago, monthly=0.9 gal
+2026-03-22 21:01:19,581 INFO Zone Zone 13: moisture=0.0%, last_watered=954 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,581 INFO Zone driveway island drippers: moisture=34.5%, last_watered=1 days ago, monthly=0.5 gal
+2026-03-22 21:01:19,582 INFO Zone Zone 11: moisture=0.0%, last_watered=1128 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,582 INFO Zone A5 - mid lawn: moisture=0.0%, last_watered=1389 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,582 INFO Zone A7 - V10 Driveway: moisture=0.0%, last_watered=1385 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,582 INFO Zone Flowers along pergola path: moisture=33.5%, last_watered=1 days ago, monthly=7.9 gal
+2026-03-22 21:01:19,583 INFO Zone Pool Waterfall Bed And Lemon Tree (V6): moisture=33.5%, last_watered=1 days ago, monthly=24.1 gal
+2026-03-22 21:01:19,583 INFO Zone Lower Lawn left of pool (V9): moisture=55.9%, last_watered=0 days ago, monthly=22.4 gal
+2026-03-22 21:01:19,583 INFO Zone Lawn Alongside Patio (V7): moisture=55.9%, last_watered=0 days ago, monthly=14.8 gal
+2026-03-22 21:01:19,584 INFO Zone Alongside Pool Fence And Rosemary Above Pump house : moisture=0.0%, last_watered=907 days ago, monthly=0.0 gal
+2026-03-22 21:01:19,584 INFO Zone Flowers under pergola (V8) : moisture=49.3%, last_watered=1 days ago, monthly=14.1 gal
+2026-03-22 21:01:19,584 INFO Zone Oleander above Pergola: moisture=47.4%, last_watered=1 days ago, monthly=8.9 gal
+2026-03-22 21:01:19,584 INFO Zone Upper Lawn Left Of Pool (V5): moisture=55.9%, last_watered=0 days ago, monthly=22.4 gal
+2026-03-22 21:01:19,587 INFO Collection complete. 24 zones. Pruned 0 old records.
+Collected state for 24 zones
+Report generated: 24 zones, 203 gal total
+=== Sun Mar 22 21:01:19 UTC 2026 Daily run completed successfully ===
+=== Mon Mar 23 14:00:03 UTC 2026 Starting Rachio daily run ===
+2026-03-23 14:00:04,235 INFO Starting daily Rachio collection
+2026-03-23 14:00:04,520 INFO HTTP Request: GET https://api.rach.io/1/public/person/info "HTTP/1.1 200 "
+2026-03-23 14:00:07,853 INFO HTTP Request: GET https://api.rach.io/1/public/person/5d932f2c-fe60-4ad1-9276-49d550c66830 "HTTP/1.1 200 "
+2026-03-23 14:00:08,211 INFO HTTP Request: GET https://api.rach.io/1/public/device/f58cd150-ad18-4b20-9fcd-0874e9be7225/forecast?units=US "HTTP/1.1 200 "
+2026-03-23 14:00:08,514 INFO HTTP Request: GET https://api.rach.io/1/public/device/3255cd29-283f-4892-a968-88cb55690073/forecast?units=US "HTTP/1.1 200 "
+2026-03-23 14:00:08,519 INFO Zone Upper Lawn Left Of Pool (V5): moisture=55.6%, last_watered=0 days ago, monthly=19.9 gal
+2026-03-23 14:00:08,520 INFO Zone Alongside Pool Fence And Rosemary Above Pump house : moisture=0.0%, last_watered=907 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,521 INFO Zone Lawn Alongside Patio (V7): moisture=55.9%, last_watered=0 days ago, monthly=10.4 gal
+2026-03-23 14:00:08,521 INFO Zone Oleander above Pergola: moisture=39.1%, last_watered=2 days ago, monthly=28.4 gal
+2026-03-23 14:00:08,522 INFO Zone Flowers along pergola path: moisture=55.6%, last_watered=0 days ago, monthly=5.2 gal
+2026-03-23 14:00:08,522 INFO Zone Flowers under pergola (V8) : moisture=55.6%, last_watered=0 days ago, monthly=19.7 gal
+2026-03-23 14:00:08,523 INFO Zone Pool Waterfall Bed And Lemon Tree (V6): moisture=55.6%, last_watered=0 days ago, monthly=6.1 gal
+2026-03-23 14:00:08,523 INFO Zone Lower Lawn left of pool (V9): moisture=55.6%, last_watered=0 days ago, monthly=16.0 gal
+2026-03-23 14:00:08,524 INFO Zone Hillside sprayer Behind Pond (V2): moisture=55.6%, last_watered=0 days ago, monthly=17.0 gal
+2026-03-23 14:00:08,524 INFO Zone Front office and raised bed at front door: moisture=55.6%, last_watered=0 days ago, monthly=7.3 gal
+2026-03-23 14:00:08,524 INFO Zone A7 - V10 Driveway: moisture=0.0%, last_watered=1385 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,525 INFO Zone A6 - Driveway left of house: moisture=0.0%, last_watered=1390 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,525 INFO Zone A12 - V17 Driveway: moisture=0.0%, last_watered=1390 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,525 INFO Zone Around Pool Bar: moisture=55.6%, last_watered=0 days ago, monthly=32.4 gal
+2026-03-23 14:00:08,526 INFO Zone Zone 11: moisture=0.0%, last_watered=1129 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,526 INFO Zone driveway island drippers: moisture=55.6%, last_watered=0 days ago, monthly=1.3 gal
+2026-03-23 14:00:08,526 INFO Zone A8-V12 - Driveway Island Lawn: moisture=38.1%, last_watered=1 days ago, monthly=17.0 gal
+2026-03-23 14:00:08,526 INFO Zone Around Dining Room And Left Of Front Door (V1): moisture=43.2%, last_watered=2 days ago, monthly=17.0 gal
+2026-03-23 14:00:08,527 INFO Zone A10 - V14 Sycamore Dr Beginning: moisture=0.0%, last_watered=1129 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,527 INFO Zone A5 - mid lawn: moisture=0.0%, last_watered=1390 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,527 INFO Zone A9 - V11 Driveway Island Lawn 2: moisture=38.1%, last_watered=1 days ago, monthly=23.0 gal
+2026-03-23 14:00:08,528 INFO Zone Zone 13: moisture=0.0%, last_watered=954 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,528 INFO Zone Oleander behind basketball hoop - needs repair: moisture=0.0%, last_watered=954 days ago, monthly=0.0 gal
+2026-03-23 14:00:08,529 INFO Zone Left Oleander Row & Between Pond and House (V4): moisture=39.3%, last_watered=2 days ago, monthly=6.2 gal
+2026-03-23 14:00:08,533 INFO Collection complete. 24 zones. Pruned 0 old records.
+Collected state for 24 zones
+Report generated: 24 zones, 227 gal total
+=== Mon Mar 23 14:00:08 UTC 2026 Daily run completed successfully ===
+=== Tue Mar 24 14:00:05 UTC 2026 Starting Rachio daily run ===
+2026-03-24 14:00:05,790 INFO Starting daily Rachio collection
+2026-03-24 14:00:06,016 INFO HTTP Request: GET https://api.rach.io/1/public/person/info "HTTP/1.1 200 "
+2026-03-24 14:00:07,733 INFO HTTP Request: GET https://api.rach.io/1/public/person/5d932f2c-fe60-4ad1-9276-49d550c66830 "HTTP/1.1 200 "
+2026-03-24 14:00:08,104 INFO HTTP Request: GET https://api.rach.io/1/public/device/f58cd150-ad18-4b20-9fcd-0874e9be7225/forecast?units=US "HTTP/1.1 200 "
+2026-03-24 14:00:08,417 INFO HTTP Request: GET https://api.rach.io/1/public/device/3255cd29-283f-4892-a968-88cb55690073/forecast?units=US "HTTP/1.1 200 "
+2026-03-24 14:00:08,419 INFO Zone Upper Lawn Left Of Pool (V5): moisture=43.4%, last_watered=1 days ago, monthly=19.9 gal
+2026-03-24 14:00:08,419 INFO Zone Alongside Pool Fence And Rosemary Above Pump house : moisture=0.0%, last_watered=908 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,419 INFO Zone Lower Lawn left of pool (V9): moisture=43.4%, last_watered=1 days ago, monthly=16.0 gal
+2026-03-24 14:00:08,419 INFO Zone Oleander above Pergola: moisture=55.8%, last_watered=0 days ago, monthly=28.4 gal
+2026-03-24 14:00:08,420 INFO Zone Flowers along pergola path: moisture=38.2%, last_watered=1 days ago, monthly=5.2 gal
+2026-03-24 14:00:08,420 INFO Zone Flowers under pergola (V8) : moisture=50.6%, last_watered=1 days ago, monthly=19.7 gal
+2026-03-24 14:00:08,420 INFO Zone Pool Waterfall Bed And Lemon Tree (V6): moisture=38.2%, last_watered=1 days ago, monthly=6.1 gal
+2026-03-24 14:00:08,420 INFO Zone Lawn Alongside Patio (V7): moisture=41.6%, last_watered=1 days ago, monthly=10.4 gal
+2026-03-24 14:00:08,420 INFO Zone Oleander behind basketball hoop - needs repair: moisture=0.0%, last_watered=955 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,420 INFO Zone Around Pool Bar: moisture=51.3%, last_watered=1 days ago, monthly=32.4 gal
+2026-03-24 14:00:08,420 INFO Zone A6 - Driveway left of house: moisture=0.0%, last_watered=1391 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,420 INFO Zone A9 - V11 Driveway Island Lawn 2: moisture=55.9%, last_watered=0 days ago, monthly=23.0 gal
+2026-03-24 14:00:08,421 INFO Zone Left Oleander Row & Between Pond and House (V4): moisture=36.0%, last_watered=3 days ago, monthly=6.2 gal
+2026-03-24 14:00:08,421 INFO Zone Zone 11: moisture=0.0%, last_watered=1130 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,421 INFO Zone Around Dining Room And Left Of Front Door (V1): moisture=40.7%, last_watered=3 days ago, monthly=17.0 gal
+2026-03-24 14:00:08,421 INFO Zone Hillside sprayer Behind Pond (V2): moisture=40.8%, last_watered=1 days ago, monthly=17.0 gal
+2026-03-24 14:00:08,421 INFO Zone driveway island drippers: moisture=38.2%, last_watered=1 days ago, monthly=1.3 gal
+2026-03-24 14:00:08,421 INFO Zone A7 - V10 Driveway: moisture=0.0%, last_watered=1386 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,421 INFO Zone A10 - V14 Sycamore Dr Beginning: moisture=0.0%, last_watered=1130 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,422 INFO Zone A12 - V17 Driveway: moisture=0.0%, last_watered=1391 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,422 INFO Zone A5 - mid lawn: moisture=0.0%, last_watered=1391 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,422 INFO Zone A8-V12 - Driveway Island Lawn: moisture=55.9%, last_watered=0 days ago, monthly=17.0 gal
+2026-03-24 14:00:08,422 INFO Zone Zone 13: moisture=0.0%, last_watered=955 days ago, monthly=0.0 gal
+2026-03-24 14:00:08,422 INFO Zone Front office and raised bed at front door: moisture=50.6%, last_watered=1 days ago, monthly=7.3 gal
+2026-03-24 14:00:08,423 INFO Collection complete. 24 zones. Pruned 0 old records.
+Collected state for 24 zones
+Report generated: 24 zones, 227 gal total
+=== Tue Mar 24 14:00:08 UTC 2026 Daily run completed successfully ===
+=== Wed Mar 25 14:03:03 UTC 2026 Starting Rachio daily run ===
+2026-03-25 14:03:03,537 INFO Starting daily Rachio collection
+2026-03-25 14:03:03,804 INFO HTTP Request: GET https://api.rach.io/1/public/person/info "HTTP/1.1 200 "
+2026-03-25 14:03:04,428 INFO HTTP Request: GET https://api.rach.io/1/public/person/5d932f2c-fe60-4ad1-9276-49d550c66830 "HTTP/1.1 200 "
+2026-03-25 14:03:04,677 INFO HTTP Request: GET https://api.rach.io/1/public/device/f58cd150-ad18-4b20-9fcd-0874e9be7225/forecast?units=US "HTTP/1.1 200 "
+2026-03-25 14:03:04,895 INFO HTTP Request: GET https://api.rach.io/1/public/device/3255cd29-283f-4892-a968-88cb55690073/forecast?units=US "HTTP/1.1 200 "
+2026-03-25 14:03:04,899 INFO Zone Oleander above Pergola: moisture=48.3%, last_watered=1 days ago, monthly=28.4 gal
+2026-03-25 14:03:04,900 INFO Zone Lower Lawn left of pool (V9): moisture=28.1%, last_watered=2 days ago, monthly=16.0 gal
+2026-03-25 14:03:04,900 INFO Zone Alongside Pool Fence And Rosemary Above Pump house : moisture=0.0%, last_watered=909 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,901 INFO Zone Flowers along pergola path: moisture=55.6%, last_watered=0 days ago, monthly=5.2 gal
+2026-03-25 14:03:04,901 INFO Zone Flowers under pergola (V8) : moisture=55.6%, last_watered=0 days ago, monthly=19.7 gal
+2026-03-25 14:03:04,902 INFO Zone Upper Lawn Left Of Pool (V5): moisture=28.1%, last_watered=2 days ago, monthly=19.9 gal
+2026-03-25 14:03:04,902 INFO Zone Pool Waterfall Bed And Lemon Tree (V6): moisture=55.6%, last_watered=0 days ago, monthly=6.1 gal
+2026-03-25 14:03:04,902 INFO Zone Lawn Alongside Patio (V7): moisture=23.6%, last_watered=2 days ago, monthly=10.4 gal
+2026-03-25 14:03:04,903 INFO Zone Hillside sprayer Behind Pond (V2): moisture=23.9%, last_watered=2 days ago, monthly=17.0 gal
+2026-03-25 14:03:04,903 INFO Zone A6 - Driveway left of house: moisture=0.0%, last_watered=1392 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,903 INFO Zone Oleander behind basketball hoop - needs repair: moisture=0.0%, last_watered=956 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,904 INFO Zone A10 - V14 Sycamore Dr Beginning: moisture=0.0%, last_watered=1131 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,905 INFO Zone Zone 11: moisture=0.0%, last_watered=1131 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,905 INFO Zone driveway island drippers: moisture=18.3%, last_watered=2 days ago, monthly=1.3 gal
+2026-03-25 14:03:04,905 INFO Zone Left Oleander Row & Between Pond and House (V4): moisture=55.8%, last_watered=0 days ago, monthly=6.2 gal
+2026-03-25 14:03:04,906 INFO Zone A5 - mid lawn: moisture=0.0%, last_watered=1392 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,906 INFO Zone A8-V12 - Driveway Island Lawn: moisture=40.6%, last_watered=1 days ago, monthly=17.0 gal
+2026-03-25 14:03:04,906 INFO Zone Around Dining Room And Left Of Front Door (V1): moisture=34.3%, last_watered=4 days ago, monthly=17.0 gal
+2026-03-25 14:03:04,907 INFO Zone A12 - V17 Driveway: moisture=0.0%, last_watered=1392 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,907 INFO Zone Zone 13: moisture=0.0%, last_watered=956 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,907 INFO Zone A9 - V11 Driveway Island Lawn 2: moisture=40.6%, last_watered=1 days ago, monthly=23.0 gal
+2026-03-25 14:03:04,908 INFO Zone A7 - V10 Driveway: moisture=0.0%, last_watered=1387 days ago, monthly=0.0 gal
+2026-03-25 14:03:04,908 INFO Zone Around Pool Bar: moisture=55.6%, last_watered=0 days ago, monthly=32.4 gal
+2026-03-25 14:03:04,908 INFO Zone Front office and raised bed at front door: moisture=55.6%, last_watered=0 days ago, monthly=7.3 gal
+2026-03-25 14:03:04,912 INFO Collection complete. 24 zones. Pruned 0 old records.
+Collected state for 24 zones
+Report generated: 24 zones, 227 gal total
+=== Wed Mar 25 14:03:05 UTC 2026 Daily run completed successfully ===
+=== Thu Mar 26 14:02:26 UTC 2026 Starting Rachio daily run ===
+2026-03-26 14:02:26,843 INFO Starting daily Rachio collection
+2026-03-26 14:02:27,095 INFO HTTP Request: GET https://api.rach.io/1/public/person/info "HTTP/1.1 200 "
+2026-03-26 14:02:27,786 INFO HTTP Request: GET https://api.rach.io/1/public/person/5d932f2c-fe60-4ad1-9276-49d550c66830 "HTTP/1.1 200 "
+2026-03-26 14:02:28,016 INFO HTTP Request: GET https://api.rach.io/1/public/device/f58cd150-ad18-4b20-9fcd-0874e9be7225/forecast?units=US "HTTP/1.1 200 "
+2026-03-26 14:02:28,259 INFO HTTP Request: GET https://api.rach.io/1/public/device/3255cd29-283f-4892-a968-88cb55690073/forecast?units=US "HTTP/1.1 200 "
+2026-03-26 14:02:28,262 INFO Zone Flowers along pergola path: moisture=33.1%, last_watered=1 days ago, monthly=5.2 gal
+2026-03-26 14:02:28,263 INFO Zone Flowers under pergola (V8) : moisture=49.2%, last_watered=1 days ago, monthly=19.7 gal
+2026-03-26 14:02:28,263 INFO Zone Alongside Pool Fence And Rosemary Above Pump house : moisture=0.0%, last_watered=910 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,264 INFO Zone Pool Waterfall Bed And Lemon Tree (V6): moisture=33.1%, last_watered=1 days ago, monthly=6.1 gal
+2026-03-26 14:02:28,264 INFO Zone Lower Lawn left of pool (V9): moisture=55.6%, last_watered=0 days ago, monthly=16.0 gal
+2026-03-26 14:02:28,265 INFO Zone Upper Lawn Left Of Pool (V5): moisture=55.6%, last_watered=0 days ago, monthly=19.9 gal
+2026-03-26 14:02:28,265 INFO Zone Lawn Alongside Patio (V7): moisture=55.9%, last_watered=0 days ago, monthly=10.4 gal
+2026-03-26 14:02:28,265 INFO Zone Oleander above Pergola: moisture=38.7%, last_watered=2 days ago, monthly=28.4 gal
+2026-03-26 14:02:28,266 INFO Zone Around Dining Room And Left Of Front Door (V1): moisture=55.6%, last_watered=0 days ago, monthly=17.0 gal
+2026-03-26 14:02:28,266 INFO Zone A7 - V10 Driveway: moisture=0.0%, last_watered=1388 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,266 INFO Zone A10 - V14 Sycamore Dr Beginning: moisture=0.0%, last_watered=1132 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,267 INFO Zone Around Pool Bar: moisture=50.1%, last_watered=1 days ago, monthly=32.4 gal
+2026-03-26 14:02:28,267 INFO Zone A5 - mid lawn: moisture=0.0%, last_watered=1393 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,268 INFO Zone A9 - V11 Driveway Island Lawn 2: moisture=55.9%, last_watered=0 days ago, monthly=23.0 gal
+2026-03-26 14:02:28,268 INFO Zone Zone 13: moisture=0.0%, last_watered=957 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,268 INFO Zone Zone 11: moisture=0.0%, last_watered=1132 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,269 INFO Zone A12 - V17 Driveway: moisture=0.0%, last_watered=1393 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,269 INFO Zone Front office and raised bed at front door: moisture=49.2%, last_watered=1 days ago, monthly=7.3 gal
+2026-03-26 14:02:28,269 INFO Zone driveway island drippers: moisture=55.6%, last_watered=0 days ago, monthly=1.3 gal
+2026-03-26 14:02:28,270 INFO Zone A6 - Driveway left of house: moisture=0.0%, last_watered=1393 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,270 INFO Zone Oleander behind basketball hoop - needs repair: moisture=0.0%, last_watered=957 days ago, monthly=0.0 gal
+2026-03-26 14:02:28,270 INFO Zone Hillside sprayer Behind Pond (V2): moisture=0.0%, last_watered=3 days ago, monthly=17.0 gal
+2026-03-26 14:02:28,270 INFO Zone A8-V12 - Driveway Island Lawn: moisture=55.9%, last_watered=0 days ago, monthly=17.0 gal
+2026-03-26 14:02:28,271 INFO Zone Left Oleander Row & Between Pond and House (V4): moisture=47.2%, last_watered=1 days ago, monthly=6.2 gal
+2026-03-26 14:02:28,274 INFO Collection complete. 24 zones. Pruned 0 old records.
+Collected state for 24 zones
+Report generated: 24 zones, 227 gal total
+=== Thu Mar 26 14:02:28 UTC 2026 Daily run completed successfully ===
+=== Fri Mar 27 14:01:36 UTC 2026 Starting Rachio daily run ===
+2026-03-27 14:01:36,458 INFO Starting daily Rachio collection
+2026-03-27 14:01:36,673 INFO HTTP Request: GET https://api.rach.io/1/public/person/info "HTTP/1.1 200 "
+2026-03-27 14:01:37,214 INFO HTTP Request: GET https://api.rach.io/1/public/person/5d932f2c-fe60-4ad1-9276-49d550c66830 "HTTP/1.1 200 "
+2026-03-27 14:01:37,484 INFO HTTP Request: GET https://api.rach.io/1/public/device/f58cd150-ad18-4b20-9fcd-0874e9be7225/forecast?units=US "HTTP/1.1 200 "
+2026-03-27 14:01:37,723 INFO HTTP Request: GET https://api.rach.io/1/public/device/3255cd29-283f-4892-a968-88cb55690073/forecast?units=US "HTTP/1.1 200 "
+2026-03-27 14:01:37,727 INFO Zone Lower Lawn left of pool (V9): moisture=42.9%, last_watered=1 days ago, monthly=16.0 gal
+2026-03-27 14:01:37,727 INFO Zone Lawn Alongside Patio (V7): moisture=41.0%, last_watered=1 days ago, monthly=10.4 gal
+2026-03-27 14:01:37,728 INFO Zone Flowers under pergola (V8) : moisture=55.6%, last_watered=0 days ago, monthly=19.7 gal
+2026-03-27 14:01:37,728 INFO Zone Oleander above Pergola: moisture=55.8%, last_watered=0 days ago, monthly=28.4 gal
+2026-03-27 14:01:37,729 INFO Zone Upper Lawn Left Of Pool (V5): moisture=42.9%, last_watered=1 days ago, monthly=19.9 gal
+2026-03-27 14:01:37,729 INFO Zone Alongside Pool Fence And Rosemary Above Pump house : moisture=0.0%, last_watered=911 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,730 INFO Zone Flowers along pergola path: moisture=55.6%, last_watered=0 days ago, monthly=5.2 gal
+2026-03-27 14:01:37,730 INFO Zone Pool Waterfall Bed And Lemon Tree (V6): moisture=55.6%, last_watered=0 days ago, monthly=6.1 gal
+2026-03-27 14:01:37,730 INFO Zone Hillside sprayer Behind Pond (V2): moisture=0.0%, last_watered=4 days ago, monthly=17.0 gal
+2026-03-27 14:01:37,731 INFO Zone Front office and raised bed at front door: moisture=55.6%, last_watered=0 days ago, monthly=7.3 gal
+2026-03-27 14:01:37,731 INFO Zone Oleander behind basketball hoop - needs repair: moisture=0.0%, last_watered=958 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,731 INFO Zone A7 - V10 Driveway: moisture=0.0%, last_watered=1389 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,732 INFO Zone A12 - V17 Driveway: moisture=0.0%, last_watered=1394 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,732 INFO Zone Zone 13: moisture=0.0%, last_watered=958 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,732 INFO Zone driveway island drippers: moisture=37.5%, last_watered=1 days ago, monthly=1.3 gal
+2026-03-27 14:01:37,733 INFO Zone A6 - Driveway left of house: moisture=0.0%, last_watered=1394 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,733 INFO Zone Left Oleander Row & Between Pond and House (V4): moisture=42.0%, last_watered=2 days ago, monthly=6.2 gal
+2026-03-27 14:01:37,733 INFO Zone A10 - V14 Sycamore Dr Beginning: moisture=0.0%, last_watered=1133 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,733 INFO Zone A9 - V11 Driveway Island Lawn 2: moisture=41.0%, last_watered=1 days ago, monthly=23.0 gal
+2026-03-27 14:01:37,734 INFO Zone Around Dining Room And Left Of Front Door (V1): moisture=50.4%, last_watered=1 days ago, monthly=17.0 gal
+2026-03-27 14:01:37,734 INFO Zone A8-V12 - Driveway Island Lawn: moisture=41.0%, last_watered=1 days ago, monthly=17.0 gal
+2026-03-27 14:01:37,734 INFO Zone Zone 11: moisture=0.0%, last_watered=1133 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,734 INFO Zone Around Pool Bar: moisture=55.6%, last_watered=0 days ago, monthly=32.4 gal
+2026-03-27 14:01:37,735 INFO Zone A5 - mid lawn: moisture=0.0%, last_watered=1394 days ago, monthly=0.0 gal
+2026-03-27 14:01:37,738 INFO Collection complete. 24 zones. Pruned 0 old records.
+Collected state for 24 zones
+Report generated: 24 zones, 227 gal total
+=== Fri Mar 27 14:01:37 UTC 2026 Daily run completed successfully ===
